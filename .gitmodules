@@ -1,0 +1,3 @@
+[submodule "airflow-dags"]
+	path = airflow-dags
+	url = https://github.com/fadex022/airflow-dags-course.git

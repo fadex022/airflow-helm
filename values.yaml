@@ -1,0 +1,95 @@
+# -------------------------------
+# Executor
+# -------------------------------
+executor: CeleryExecutor
+
+# -------------------------------
+# Redis (external)
+# -------------------------------
+redis:
+  enabled: false
+
+data:
+  brokerUrl: "redis://custom-redis.airflow.svc.cluster.local:6379/0"
+
+# -------------------------------
+# Airflow configuration
+# -------------------------------
+config:
+  webserver:
+    base_url: http://127.0.0.1:8080
+  logging:
+    worker_log_server_port: 8793
+  celery:
+    worker_hostname_dns_check: "True"
+
+# -------------------------------
+# Webserver
+# -------------------------------
+webserver:
+  enabled: true
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 200m
+      memory: 512Mi
+
+# -------------------------------
+# Scheduler
+# -------------------------------
+scheduler:
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 200m
+      memory: 100Mi
+
+# -------------------------------
+# Workers
+# -------------------------------
+workers:
+  replicas: 1
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+    requests:
+      cpu: 200m
+      memory: 500Mi
+
+# -------------------------------
+# Logs
+# -------------------------------
+logs:
+  emptyDirConfig:
+    sizeLimit: 1Gi
+    medium: Memory
+  persistence:
+    enabled: false
+
+# -------------------------------
+# PostgreSQL
+# -------------------------------
+postgresql:
+  enabled: true
+  image:
+    repository: bitnamilegacy/postgresql
+    tag: 16.1.0-debian-11-r15
+    registry: docker.io
+
+# -------------------------------
+# DAGs git sync
+# -------------------------------
+dags:
+  gitSync:
+    enabled: true
+    repo: https://github.com/fadex022/airflow-dags-course.git
+    branch: master
+    rev: HEAD
+    depth: 1
+    subPath: "dags"
+    wait: 60
