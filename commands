@@ -1,7 +1,0 @@
-kubectl create ns airflow
-
-kubectl apply -f redis.yaml
-
-helm upgrade --install airflow apache-airflow/airflow \
-  --namespace airflow \
-  --values values.yaml --create-namespace
